@@ -7,7 +7,7 @@ import java.util.List;
 public interface TaskService {
     Task getById(Long id);
     List<Task> getAllByUserId(Long userId);
-    void update(Task task);
-    void create(Task task);
+    Task update(Task task);
+    Task create(Long userId, Task task);
     void delete(Long id);
 }

@@ -19,13 +19,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void update(Task task) {
-
+    public Task update(Task task) {
+        return null;
     }
 
     @Override
-    public void create(Task task) {
-
+    public Task create(Long userId, Task task) {
+        return null;
     }
 
     @Override
