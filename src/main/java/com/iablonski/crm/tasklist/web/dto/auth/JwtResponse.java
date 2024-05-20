@@ -1,4 +1,13 @@
 package com.iablonski.crm.tasklist.web.dto.auth;
 
-public record JwtResponse(Long Id, String username, String accessToken, String refreshToken) {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class JwtResponse {
+    private Long id;
+    private String username;
+    private String accessToken;
+    private String refreshToken;
 }
