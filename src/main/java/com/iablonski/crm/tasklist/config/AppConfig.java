@@ -1,5 +1,7 @@
 package com.iablonski.crm.tasklist.config;
 
+import com.iablonski.crm.tasklist.web.security.JwtTokenFilter;
+import com.iablonski.crm.tasklist.web.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class AppConfig {
 
     private final ApplicationContext applicationContext;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -42,16 +45,15 @@ public class AppConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(handling -> handling.authenticationEntryPoint((request, response, authException) ->
-                {
-                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
-                    response.getWriter().write("UNAUTHORIZED");
-                }
-                ))
-                .exceptionHandling(handling -> handling.accessDeniedHandler((request, response, authException) ->
-                {
-                    response.setStatus(HttpStatus.FORBIDDEN.value());
-                    response.getWriter().write("UNAUTHORIZED");
-                }
+                        {
+                            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                            response.getWriter().write("UNAUTHORIZED");
+                        }
+                ).accessDeniedHandler((request, response, authException) ->
+                        {
+                            response.setStatus(HttpStatus.FORBIDDEN.value());
+                            response.getWriter().write("UNAUTHORIZED");
+                        }
                 ))
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/api/v1/auth/**").permitAll().anyRequest().authenticated())

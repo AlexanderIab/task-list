@@ -6,15 +6,19 @@ import com.iablonski.crm.tasklist.domain.user.User;
 import com.iablonski.crm.tasklist.service.UserService;
 import com.iablonski.crm.tasklist.service.props.JwtProperties;
 import com.iablonski.crm.tasklist.web.dto.auth.JwtResponse;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import java.security.Key;
+import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -27,7 +31,7 @@ public class JwtTokenProvider {
     private final JwtProperties jwtProperties;
     private final UserDetailsService userDetailsService;
     private final UserService userService;
-    private Key key;
+    private SecretKey key;
 
     @PostConstruct
     public void init(){
@@ -73,11 +77,48 @@ public class JwtTokenProvider {
         }
         Long userId = Long.valueOf(getId(refreshToken));
         User user = userService.getById(userId);
-        JwtResponse jwtResponse = new JwtResponse(
+        return new JwtResponse(
                 userId,
                 user.getUsername(),
                 createAccessToken(userId, user.getUsername(), user.getRoles()),
                 createRefreshToken(userId, user.getUsername()));
     }
 
+    private String getId(String token) {
+        return Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("id", String.class);
+    }
+
+    private String getUsername(
+            final String token
+    ) {
+        return Jwts
+                .parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .getSubject();
+    }
+
+    public boolean validateToken(String token) {
+        Jws<Claims> claims = Jwts
+                .parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token);
+        return claims.getPayload()
+                .getExpiration()
+                .after(new Date());
+    }
+
+    public Authentication getAuthentication(String token){
+        String username = getUsername(token);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+    }
 }
