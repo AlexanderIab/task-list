@@ -39,9 +39,11 @@ public class JwtTokenProvider {
     }
 
     public String createAccessToken(Long userId, String username, Set<Role> roles){
-        Claims claims = Jwts.claims().subject(username).build();
-        claims.put("id", userId);
-        claims.put("roles", resolveRoles(roles));
+        Claims claims = Jwts.claims()
+                .subject(username)
+                .add("id", userId)
+                .add("roles", resolveRoles(roles))
+                .build();
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtProperties.getAccess());
         return Jwts.builder()
@@ -59,8 +61,10 @@ public class JwtTokenProvider {
     }
 
     public String createRefreshToken(Long userId, String username){
-        Claims claims = Jwts.claims().subject(username).build();
-        claims.put("id", userId);
+        Claims claims = Jwts.claims()
+                .subject(username)
+                .add("id", userId)
+                .build();
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtProperties.getRefresh());
         return Jwts.builder()
