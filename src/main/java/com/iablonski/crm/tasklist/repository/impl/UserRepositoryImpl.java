@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.*;
 import java.util.Optional;
 
-@Repository
+//@Repository
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 
@@ -33,7 +33,7 @@ public class UserRepositoryImpl implements UserRepository {
                      LEFT JOIN tasks.user_roles ur on u.id = ur.user_id
                      LEFT JOIN tasks.user_task ut on u.id = ut.user_id
                      LEFT JOIN tasks.task_list tl on ut.task_id = tl.id
-            WHERE u.id = ?;
+            WHERE u.id = ?
             """;
 
     private final String FIND_BY_USERNAME = """
@@ -58,30 +58,30 @@ public class UserRepositoryImpl implements UserRepository {
             SET name     = ?,
                 username = ?,
                 password = ?
-            WHERE id = ?;
+            WHERE id = ?
             """;
 
     private final String CREATE = """
             INSERT INTO tasks.user_list (name, username, password)
-            VALUES (?, ?, ?);
+            VALUES (?, ?, ?)
             """;
 
     private final String INSERT_USER_ROLE = """
             INSERT INTO tasks.user_roles(user_id, role)
-            VALUES (?, ?);
+            VALUES (?, ?)
             """;
 
     private final String DELETE = """
             DELETE
             FROM tasks.user_list
-            WHERE id = ?;
+            WHERE id = ?
             """;
 
     private final String IS_TASK_OWNER = """
             SELECT exists(SELECT 1
                           FROM tasks.user_task
                           WHERE user_id = ?
-                            AND task_id = ?);
+                            AND task_id = ?)
             """;
 
 

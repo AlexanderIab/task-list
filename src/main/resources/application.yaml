@@ -9,6 +9,8 @@ spring:
       mode: never
       continue-on-error: false
       data-locations: classpath:demo_data.sql
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
 security:
   jwt:
     secret: cWF6d3N4ZWRjcmZ2dGdieWhudWptaWssb2wucDsvWydd

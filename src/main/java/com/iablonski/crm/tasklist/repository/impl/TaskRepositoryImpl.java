@@ -12,7 +12,7 @@ import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+//@Repository
 @RequiredArgsConstructor
 public class TaskRepositoryImpl implements TaskRepository {
 
@@ -24,7 +24,7 @@ public class TaskRepositoryImpl implements TaskRepository {
                    t.expiration_date AS task_expiration_date,
                    t.status          AS task_status
             FROM tasks.task_list t
-            WHERE id = ?;
+            WHERE id = ?
             """;
 
     private final String FIND_ALL_BY_USER_ID = """
@@ -35,12 +35,12 @@ public class TaskRepositoryImpl implements TaskRepository {
                    t.status          AS task_status
             FROM tasks.task_list t
                      JOIN tasks.user_task ut ON t.id = ut.task_id
-            WHERE ut.user_id = ?;
+            WHERE ut.user_id = ?
             """;
 
     private final String ASSIGN = """
             INSERT INTO tasks.user_task(task_id, user_id)
-            VALUES (?, ?);
+            VALUES (?, ?)
             """;
 
     private final String UPDATE = """
@@ -49,18 +49,18 @@ public class TaskRepositoryImpl implements TaskRepository {
                 description     = ?,
                 expiration_date = ?,
                 status          = ?
-            WHERE id = ?;
+            WHERE id = ?
             """;
 
     private final String CREATE = """
             INSERT INTO tasks.task_list(title, description, status, expiration_date)
-            VALUES (?, ?, ?, ?);
+            VALUES (?, ?, ?, ?)
             """;
 
     private final String DELETE = """
             DELETE
             FROM tasks.task_list
-            WHERE id = ?;
+            WHERE id = ?
             """;
 
     @Override
