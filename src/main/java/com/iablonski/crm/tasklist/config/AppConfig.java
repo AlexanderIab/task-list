@@ -2,7 +2,6 @@ package com.iablonski.crm.tasklist.config;
 
 import com.iablonski.crm.tasklist.web.security.JwtTokenFilter;
 import com.iablonski.crm.tasklist.web.security.JwtTokenProvider;
-import com.iablonski.crm.tasklist.web.security.expression.CustomSecurityExpressionHandler;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -14,8 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
-import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -45,13 +42,6 @@ public class AppConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
-    }
-
-    @Bean
-    public MethodSecurityExpressionHandler expressionHandler(){
-        DefaultMethodSecurityExpressionHandler expressionHandler = new CustomSecurityExpressionHandler();
-        expressionHandler.setApplicationContext(applicationContext);
-        return expressionHandler;
     }
 
     @Bean
