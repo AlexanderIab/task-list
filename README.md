@@ -9,3 +9,4 @@ Technologies:
 - MyBatis
 - Liquibase
 - Swagger
+- Redis
