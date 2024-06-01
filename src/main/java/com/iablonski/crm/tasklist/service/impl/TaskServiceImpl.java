@@ -3,8 +3,10 @@ package com.iablonski.crm.tasklist.service.impl;
 import com.iablonski.crm.tasklist.domain.exception.ResourceNotFoundException;
 import com.iablonski.crm.tasklist.domain.task.Status;
 import com.iablonski.crm.tasklist.domain.task.Task;
+import com.iablonski.crm.tasklist.domain.user.User;
 import com.iablonski.crm.tasklist.repository.TaskRepository;
 import com.iablonski.crm.tasklist.service.TaskService;
+import com.iablonski.crm.tasklist.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -19,6 +21,7 @@ import java.util.List;
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
+    private final UserService userService;
 
     @Override
     @Transactional(readOnly = true)
@@ -40,7 +43,7 @@ public class TaskServiceImpl implements TaskService {
         if (task.getStatus() == null) {
             task.setStatus(Status.TODO);
         }
-        taskRepository.update(task);
+        taskRepository.save(task);
         return task;
     }
 
@@ -48,9 +51,10 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     @Cacheable(value = "TaskService::getById", key = "#task.id")
     public Task create(Long userId, Task task) {
+        User user = userService.getById(userId);
         task.setStatus(Status.TODO);
-        taskRepository.create(task);
-        taskRepository.assignToUserById(task.getId(), userId);
+        user.getTasks().add(task);
+        userService.update(user);
         return task;
     }
 
@@ -58,6 +62,6 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     @CacheEvict(value = "TaskService::getById", key = "#id")
     public void delete(Long id) {
-        taskRepository.delete(id);
+        taskRepository.deleteById(id);
     }
 }

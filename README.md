@@ -10,3 +10,5 @@ Technologies:
 - Liquibase
 - Swagger
 - Redis
+- Hibernate
+- MinIO

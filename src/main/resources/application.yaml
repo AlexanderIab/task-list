@@ -17,9 +17,7 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:liquibase/db.changelog.yaml
-    default-schema: tasks
-mybatis:
-  mapper-locations: classpath:mybatis/mapper/*.xml
+    default-schema: demo
 security:
   jwt:
     secret: ${JWT_SECRET}

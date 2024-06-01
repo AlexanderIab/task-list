@@ -4,7 +4,6 @@ COPY src /app/src
 COPY build.gradle /app/
 RUN gradle clean bootJar
 
-# Финальный этап
 FROM openjdk:17-jdk-slim
 WORKDIR /app
 COPY --from=build /app/build/libs/*.jar application.jar
