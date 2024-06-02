@@ -3,6 +3,7 @@ package com.iablonski.crm.tasklist.service.impl;
 import com.iablonski.crm.tasklist.domain.exception.ResourceNotFoundException;
 import com.iablonski.crm.tasklist.domain.task.Status;
 import com.iablonski.crm.tasklist.domain.task.Task;
+import com.iablonski.crm.tasklist.domain.task.TaskImage;
 import com.iablonski.crm.tasklist.domain.user.User;
 import com.iablonski.crm.tasklist.repository.TaskRepository;
 import com.iablonski.crm.tasklist.service.TaskService;
@@ -63,5 +64,15 @@ public class TaskServiceImpl implements TaskService {
     @CacheEvict(value = "TaskService::getById", key = "#id")
     public void delete(Long id) {
         taskRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    @CacheEvict(value = "TaskService::getById", key = "#id")
+    public void uploadImage(Long id, TaskImage image) {
+        Task task = getById(id);
+        String filename = imageService.upload(image);
+        task.getImages().add(filename);
+        taskRepository.save(task);
     }
 }

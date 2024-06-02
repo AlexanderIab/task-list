@@ -1,6 +1,7 @@
 package com.iablonski.crm.tasklist.web.dto.task;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.iablonski.crm.tasklist.domain.task.Status;
 import com.iablonski.crm.tasklist.web.dto.validation.OnCreate;
 import com.iablonski.crm.tasklist.web.dto.validation.OnUpdate;
@@ -9,6 +10,7 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record TaskDto(
         @NotNull(message = "Id must be not null", groups = OnUpdate.class)
@@ -21,5 +23,8 @@ public record TaskDto(
         Status status,
         @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-        LocalDateTime expirationTime) {
+        LocalDateTime expirationTime,
+        @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+        List<String> images
+        ) {
 }

@@ -20,7 +20,7 @@ public class User implements Serializable {
     private String password;
     @Transient
     private String passwordConfirmation;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles")
     @Enumerated(value = EnumType.STRING)
     @Column(name = "role")

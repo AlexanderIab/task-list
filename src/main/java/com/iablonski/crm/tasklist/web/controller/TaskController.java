@@ -1,9 +1,12 @@
 package com.iablonski.crm.tasklist.web.controller;
 
 import com.iablonski.crm.tasklist.domain.task.Task;
+import com.iablonski.crm.tasklist.domain.task.TaskImage;
 import com.iablonski.crm.tasklist.service.TaskService;
 import com.iablonski.crm.tasklist.web.dto.task.TaskDto;
+import com.iablonski.crm.tasklist.web.dto.task.TaskImageDto;
 import com.iablonski.crm.tasklist.web.dto.validation.OnUpdate;
+import com.iablonski.crm.tasklist.web.mappers.TaskImageMapper;
 import com.iablonski.crm.tasklist.web.mappers.TaskMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,6 +24,7 @@ public class TaskController {
 
     private final TaskService taskService;
     private final TaskMapper taskMapper;
+    private final TaskImageMapper taskImageMapper;
 
     @PutMapping
     @Operation(summary = "Update task")
@@ -45,4 +49,13 @@ public class TaskController {
     public void deleteById(@PathVariable("id") Long id) {
         taskService.delete(id);
     }
+
+    @PostMapping("/{id}/image")
+    @Operation(summary = "Upload image to task")
+    @PreAuthorize("@customSecurityExpression.canAccessTask(#id)")
+    public void uploadImage(@PathVariable Long id, @Validated @ModelAttribute TaskImageDto imageDto){
+        TaskImage image = taskImageMapper.toEntity(imageDto);
+        taskService.uploadImage(id, image);
+    }
+
 }
