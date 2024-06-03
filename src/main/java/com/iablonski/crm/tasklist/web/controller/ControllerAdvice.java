@@ -1,9 +1,6 @@
 package com.iablonski.crm.tasklist.web.controller;
 
-import com.iablonski.crm.tasklist.domain.exception.AccessDeniedException;
-import com.iablonski.crm.tasklist.domain.exception.ExceptionBody;
-import com.iablonski.crm.tasklist.domain.exception.ResourceMappingException;
-import com.iablonski.crm.tasklist.domain.exception.ResourceNotFoundException;
+import com.iablonski.crm.tasklist.domain.exception.*;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
@@ -73,6 +70,12 @@ public class ControllerAdvice {
     public ExceptionBody handleAuthenticationException(AuthenticationException e)  {
         e.printStackTrace();
         return new ExceptionBody("Authentication failed");
+    }
+
+    @ExceptionHandler(ImageUploadException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionBody handleImageUploadException(ImageUploadException e)  {
+        return new ExceptionBody(e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)

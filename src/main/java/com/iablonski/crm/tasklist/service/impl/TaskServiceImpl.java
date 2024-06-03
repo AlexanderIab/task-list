@@ -6,6 +6,7 @@ import com.iablonski.crm.tasklist.domain.task.Task;
 import com.iablonski.crm.tasklist.domain.task.TaskImage;
 import com.iablonski.crm.tasklist.domain.user.User;
 import com.iablonski.crm.tasklist.repository.TaskRepository;
+import com.iablonski.crm.tasklist.service.ImageService;
 import com.iablonski.crm.tasklist.service.TaskService;
 import com.iablonski.crm.tasklist.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
     private final UserService userService;
+    private final ImageService imageService;
 
     @Override
     @Transactional(readOnly = true)

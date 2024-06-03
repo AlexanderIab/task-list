@@ -1,7 +1,9 @@
 package com.iablonski.crm.tasklist.config;
 
+import com.iablonski.crm.tasklist.service.props.MinioProperties;
 import com.iablonski.crm.tasklist.web.security.JwtTokenFilter;
 import com.iablonski.crm.tasklist.web.security.JwtTokenProvider;
+import io.minio.MinioClient;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -33,6 +35,7 @@ public class AppConfig {
 
     private final ApplicationContext applicationContext;
     private final JwtTokenProvider jwtTokenProvider;
+    private final MinioProperties minioProperties;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -42,6 +45,14 @@ public class AppConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
+    }
+
+    @Bean
+    public MinioClient minioClient() {
+        return MinioClient.builder()
+                .endpoint(minioProperties.getUrl())
+                .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
+                .build();
     }
 
     @Bean
