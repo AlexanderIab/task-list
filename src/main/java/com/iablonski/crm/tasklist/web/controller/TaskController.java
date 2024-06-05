@@ -53,7 +53,7 @@ public class TaskController {
     @PostMapping("/{id}/image")
     @Operation(summary = "Upload image to task")
     @PreAuthorize("@customSecurityExpression.canAccessTask(#id)")
-    public void uploadImage(@PathVariable Long id, @Validated @ModelAttribute TaskImageDto imageDto){
+    public void uploadImage(@PathVariable Long id, @Validated @ModelAttribute TaskImageDto imageDto) {
         TaskImage image = taskImageMapper.toEntity(imageDto);
         taskService.uploadImage(id, image);
     }
