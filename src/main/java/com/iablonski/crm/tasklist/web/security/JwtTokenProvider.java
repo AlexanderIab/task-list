@@ -6,10 +6,10 @@ import com.iablonski.crm.tasklist.domain.user.User;
 import com.iablonski.crm.tasklist.service.UserService;
 import com.iablonski.crm.tasklist.service.props.JwtProperties;
 import com.iablonski.crm.tasklist.web.dto.auth.JwtResponse;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,11 +36,11 @@ public class JwtTokenProvider {
     private SecretKey key;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         this.key = Keys.hmacShaKeyFor(jwtProperties.getSecret().getBytes());
     }
 
-    public String createAccessToken(Long userId, String username, Set<Role> roles){
+    public String createAccessToken(Long userId, String username, Set<Role> roles) {
         Claims claims = Jwts.claims()
                 .subject(username)
                 .add("id", userId)
@@ -60,7 +60,7 @@ public class JwtTokenProvider {
                 .collect(Collectors.toList());
     }
 
-    public String createRefreshToken(Long userId, String username){
+    public String createRefreshToken(Long userId, String username) {
         Claims claims = Jwts.claims()
                 .subject(username)
                 .add("id", userId)
@@ -73,8 +73,8 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public JwtResponse refreshUserToken(String refreshToken){
-        if(!validateToken(refreshToken)){
+    public JwtResponse refreshUserToken(String refreshToken) {
+        if (!validateToken(refreshToken)) {
             throw new AccessDeniedException();
         }
         Long userId = Long.valueOf(getId(refreshToken));
@@ -118,7 +118,7 @@ public class JwtTokenProvider {
                 .after(new Date());
     }
 
-    public Authentication getAuthentication(String token){
+    public Authentication getAuthentication(String token) {
         String username = getUsername(token);
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());

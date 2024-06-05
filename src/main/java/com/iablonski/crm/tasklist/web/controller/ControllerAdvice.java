@@ -67,14 +67,14 @@ public class ControllerAdvice {
 
     @ExceptionHandler(AuthenticationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionBody handleAuthenticationException(AuthenticationException e)  {
+    public ExceptionBody handleAuthenticationException(AuthenticationException e) {
         e.printStackTrace();
         return new ExceptionBody("Authentication failed");
     }
 
     @ExceptionHandler(ImageUploadException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionBody handleImageUploadException(ImageUploadException e)  {
+    public ExceptionBody handleImageUploadException(ImageUploadException e) {
         return new ExceptionBody(e.getMessage());
     }
 
