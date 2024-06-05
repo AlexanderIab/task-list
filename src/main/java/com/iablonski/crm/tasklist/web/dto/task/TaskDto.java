@@ -26,5 +26,5 @@ public record TaskDto(
         LocalDateTime expirationTime,
         @JsonProperty(access = JsonProperty.Access.READ_ONLY)
         List<String> images
-) {
+        ) {
 }
