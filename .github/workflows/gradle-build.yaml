@@ -1,5 +1,4 @@
 name: gradle-build
-
 on:
   push:
     branches: [ "main" ]
@@ -21,4 +20,4 @@ jobs:
           key: gradle-${{ hashFiles('**/build.gradle*') }}
           restore-keys: |
             gradle-
-      - run: gradle clean install
+      - run: gradle clean build
