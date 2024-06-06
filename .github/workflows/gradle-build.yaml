@@ -1,13 +1,13 @@
 name: gradle-build
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
   checkstyle:
-    runs-on: ubuntu-20.4
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v3
@@ -16,8 +16,8 @@ jobs:
           java-version: 17
       - uses: actions/cache@v3
         with:
-          path: ~/.gradle/caches/modules-2
-          key: gradle-${{ hashFiles('**/build.gradle*') }}
+          path: ~/.gradle/caches/modules-2/files-2.1
+          key: gradle-${{ hashFiles('**/build.gradle') }}
           restore-keys: |
             gradle-
       - run: gradle clean build

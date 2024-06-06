@@ -11,8 +11,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     @Query(value = """
             SELECT * FROM tasks t
-            JOIN user_tasks ut ON t.id = ut.task_id 
-            WHERE ut.user_id = :userId
+            JOIN user_tasks ut ON t.id = ut.task_id WHERE ut.user_id = :userId
             """, nativeQuery = true)
     List<Task> findAllByUserId(@Param("userId") Long userId);
 }
