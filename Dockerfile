@@ -1,5 +1,6 @@
 FROM gradle:8.7-jdk17 AS build
 WORKDIR /app
+COPY /config/checkstyle/checkstyle.xml /
 COPY src /app/src
 COPY build.gradle /app/
 RUN gradle clean bootJar
