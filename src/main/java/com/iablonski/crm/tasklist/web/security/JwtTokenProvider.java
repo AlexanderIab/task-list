@@ -40,13 +40,16 @@ public class JwtTokenProvider {
         this.key = Keys.hmacShaKeyFor(jwtProperties.getSecret().getBytes());
     }
 
-    public String createAccessToken(Long userId, String username, Set<Role> roles) {
+    public String createAccessToken(final Long userId,
+                                    final String username,
+                                    final Set<Role> roles) {
         Claims claims = Jwts.claims()
                 .subject(username)
                 .add("id", userId)
                 .add("roles", resolveRoles(roles))
                 .build();
-        Instant validity = Instant.now().plus(jwtProperties.getAccess(), ChronoUnit.HOURS);
+        Instant validity = Instant.now()
+                .plus(jwtProperties.getAccess(), ChronoUnit.HOURS);
         return Jwts.builder()
                 .claims(claims)
                 .expiration(Date.from(validity))
@@ -54,18 +57,19 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    private List<String> resolveRoles(Set<Role> roles) {
+    private List<String> resolveRoles(final Set<Role> roles) {
         return roles.stream()
                 .map(Enum::name)
                 .collect(Collectors.toList());
     }
 
-    public String createRefreshToken(Long userId, String username) {
+    public String createRefreshToken(final Long userId, final String username) {
         Claims claims = Jwts.claims()
                 .subject(username)
                 .add("id", userId)
                 .build();
-        Instant validity = Instant.now().plus(jwtProperties.getRefresh(), ChronoUnit.DAYS);
+        Instant validity =
+                Instant.now().plus(jwtProperties.getRefresh(), ChronoUnit.DAYS);
         return Jwts.builder()
                 .claims(claims)
                 .expiration(Date.from(validity))
@@ -73,7 +77,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public JwtResponse refreshUserToken(String refreshToken) {
+    public JwtResponse refreshUserToken(final String refreshToken) {
         if (!validateToken(refreshToken)) {
             throw new AccessDeniedException();
         }
@@ -86,7 +90,7 @@ public class JwtTokenProvider {
                 createRefreshToken(userId, user.getUsername()));
     }
 
-    private String getId(String token) {
+    private String getId(final String token) {
         return Jwts.parser()
                 .verifyWith(key)
                 .build()
@@ -107,7 +111,7 @@ public class JwtTokenProvider {
                 .getSubject();
     }
 
-    public boolean validateToken(String token) {
+    public boolean validateToken(final String token) {
         Jws<Claims> claims = Jwts
                 .parser()
                 .verifyWith(key)
@@ -118,9 +122,11 @@ public class JwtTokenProvider {
                 .after(new Date());
     }
 
-    public Authentication getAuthentication(String token) {
+    public Authentication getAuthentication(final String token) {
         String username = getUsername(token);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        UserDetails userDetails = userDetailsService
+                .loadUserByUsername(username);
+        return new UsernamePasswordAuthenticationToken(
+                userDetails, "", userDetails.getAuthorities());
     }
 }

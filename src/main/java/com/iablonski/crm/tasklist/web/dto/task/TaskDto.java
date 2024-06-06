@@ -15,10 +15,14 @@ import java.util.List;
 public record TaskDto(
         @NotNull(message = "Id must be not null", groups = OnUpdate.class)
         Long id,
-        @NotNull(message = "Title must be not null", groups = {OnUpdate.class, OnCreate.class})
-        @Length(max = 255, message = "Title must be smaller than 255 symbols", groups = {OnUpdate.class, OnCreate.class})
+        @NotNull(message = "Title must be not null",
+                groups = {OnUpdate.class, OnCreate.class})
+        @Length(max = 255, message = "Title must be smaller than 255 symbols",
+                groups = {OnUpdate.class, OnCreate.class})
         String title,
-        @Length(max = 255, message = "Description must be smaller than 255 symbols", groups = {OnUpdate.class, OnCreate.class})
+        @Length(max = 255,
+                message = "Description must be smaller than 255 symbols",
+                groups = {OnUpdate.class, OnCreate.class})
         String description,
         Status status,
         @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)

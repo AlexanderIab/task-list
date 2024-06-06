@@ -14,8 +14,6 @@ java {
 
 checkstyle {
     toolVersion = "10.12.4"
-    config = resources.text.fromUri('https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/sun_checks.xml')
-    configFile = file('config/checkstyle/checkstyle-suppressions.xml')
 }
 
 tasks.withType(Checkstyle).configureEach {
