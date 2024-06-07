@@ -4,7 +4,6 @@ import com.iablonski.crm.tasklist.domain.exception.ResourceNotFoundException;
 import com.iablonski.crm.tasklist.domain.task.Status;
 import com.iablonski.crm.tasklist.domain.task.Task;
 import com.iablonski.crm.tasklist.domain.task.TaskImage;
-import com.iablonski.crm.tasklist.domain.user.User;
 import com.iablonski.crm.tasklist.repository.TaskRepository;
 import com.iablonski.crm.tasklist.service.ImageService;
 import com.iablonski.crm.tasklist.service.TaskService;
@@ -23,7 +22,6 @@ import java.util.List;
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
-    private final UserService userService;
     private final ImageService imageService;
 
     @Override
@@ -53,12 +51,16 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
-    @Cacheable(value = "TaskService::getById", key = "#task.id")
+    @Cacheable(
+            value = "TaskService::getById",
+            condition = "#task.id!=null",
+            key = "#task.id")
     public Task create(final Long userId, final Task task) {
-        User user = userService.getById(userId);
-        task.setStatus(Status.TODO);
-        user.getTasks().add(task);
-        userService.update(user);
+        if (task.getStatus() == null) {
+            task.setStatus(Status.TODO);
+        }
+        taskRepository.save(task);
+        taskRepository.assignTask(userId, task.getId());
         return task;
     }
 

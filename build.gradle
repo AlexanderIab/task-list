@@ -33,29 +33,62 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
-    implementation 'net.lbruun.springboot:preliquibase-spring-boot-starter:1.5.0'
-    compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'org.postgresql:postgresql'
-    implementation 'org.liquibase:liquibase-core:4.28.0'
-    annotationProcessor 'org.projectlombok:lombok'
-    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
-    implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
-    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
-    implementation 'io.minio:minio:8.5.10'
-    implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
-    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'
-    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.5'
+ext {
+    springDocVersion = '2.5.0'
+    preliquibaseVersion = '1.5.0'
+    graphqlJavaServletVersion = '15.2.0'
+    graphqlJavaExtendedScalars = '22.0'
+    liquibaseCoreVersion = '4.28.0'
+    lombokVersion = '1.18.32'
+    mapstructVersion = '1.5.5.Final'
+    hibernateValidatorVersion = '8.0.1.Final'
+    jakartaValidationApiVersion = '3.0.2'
+    minioVersion = '8.5.10'
+    jjwtVersion = '0.12.5'
 }
 
+dependencies {
+    // Spring Boot Starters
+    implementation "org.springframework.boot:spring-boot-starter-data-jdbc"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation "org.springframework.boot:spring-boot-starter-data-redis"
+    implementation "org.springframework.boot:spring-boot-starter-graphql"
+    implementation "org.springframework.boot:spring-boot-starter-test"
 
+    // SpringDoc for OpenAPI
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:$springDocVersion"
+
+    // GraphQL
+    implementation "com.graphql-java-kickstart:graphql-java-servlet:$graphqlJavaServletVersion"
+    implementation "com.graphql-java:graphql-java-extended-scalars:$graphqlJavaExtendedScalars"
+
+    // Lombok
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+
+    // Database
+    runtimeOnly "org.postgresql:postgresql"
+    implementation "org.liquibase:liquibase-core:$liquibaseCoreVersion"
+    implementation "net.lbruun.springboot:preliquibase-spring-boot-starter:$preliquibaseVersion"
+
+    // MapStruct
+    implementation "org.mapstruct:mapstruct:$mapstructVersion"
+    annotationProcessor "org.mapstruct:mapstruct-processor:$mapstructVersion"
+
+    // Validation
+    implementation "org.hibernate.validator:hibernate-validator:$hibernateValidatorVersion"
+    implementation "jakarta.validation:jakarta.validation-api:$jakartaValidationApiVersion"
+
+    // MinIO
+    implementation "io.minio:minio:$minioVersion"
+
+    // JWT
+    implementation "io.jsonwebtoken:jjwt-api:$jjwtVersion"
+    runtimeOnly "io.jsonwebtoken:jjwt-impl:$jjwtVersion"
+    runtimeOnly "io.jsonwebtoken:jjwt-jackson:$jjwtVersion"
+}
 
 tasks.named('test') {
     useJUnitPlatform()

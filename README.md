@@ -46,3 +46,6 @@ Technologies:
 - Redis
 - Hibernate
 - MinIO
+- Checkstyle
+- Docker
+- GraphQL
