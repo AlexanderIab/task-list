@@ -9,7 +9,7 @@ import org.springframework.graphql.execution.RuntimeWiringConfigurer;
 public class GraphqlConfig {
 
     @Bean
-    public GraphQLScalarType localDateTimeScalar(){
+    public GraphQLScalarType localDateTimeScalar() {
         return GraphQLScalarType.newScalar()
                 .name("LocalDateTime")
                 .description("LocalDateTime scalar")
@@ -18,7 +18,7 @@ public class GraphqlConfig {
     }
 
     @Bean
-    public RuntimeWiringConfigurer runtimeWiringConfigurer(){
+    public RuntimeWiringConfigurer runtimeWiringConfigurer() {
         return wiringBuilder -> wiringBuilder
                 .scalar(localDateTimeScalar())
                 .build();

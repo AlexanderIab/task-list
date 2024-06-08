@@ -7,7 +7,6 @@ import com.iablonski.crm.tasklist.domain.task.TaskImage;
 import com.iablonski.crm.tasklist.repository.TaskRepository;
 import com.iablonski.crm.tasklist.service.ImageService;
 import com.iablonski.crm.tasklist.service.TaskService;
-import com.iablonski.crm.tasklist.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
