@@ -68,7 +68,7 @@ dependencies {
     compileOnly "org.projectlombok:lombok:$lombokVersion"
     annotationProcessor "org.projectlombok:lombok:$lombokVersion"
 
-    // Database
+    // DB
     runtimeOnly "org.postgresql:postgresql"
     implementation "org.liquibase:liquibase-core:$liquibaseCoreVersion"
     implementation "net.lbruun.springboot:preliquibase-spring-boot-starter:$preliquibaseVersion"
@@ -88,6 +88,9 @@ dependencies {
     implementation "io.jsonwebtoken:jjwt-api:$jjwtVersion"
     runtimeOnly "io.jsonwebtoken:jjwt-impl:$jjwtVersion"
     runtimeOnly "io.jsonwebtoken:jjwt-jackson:$jjwtVersion"
+
+    // Test DB
+    testImplementation 'com.h2database:h2:2.2.224'
 }
 
 tasks.named('test') {
