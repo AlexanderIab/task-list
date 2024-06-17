@@ -24,7 +24,7 @@ public class UserRepositoryTest {
     private TestEntityManager entityManager;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         User user = new User();
         user.setUsername("user");
         user.setPassword("password");
@@ -32,12 +32,13 @@ public class UserRepositoryTest {
     }
 
     @Test
-    void findByUsername_userExists(){
+    void findByUsername_userExists() {
         String username = "user";
 
         Optional<User> foundUser = userRepository.findByUsername(username);
 
         Assertions.assertThat(foundUser).isPresent();
-        Assertions.assertThat(foundUser.get().getUsername()).isEqualTo("user");
+        Assertions.assertThat(foundUser.get().getUsername())
+                .isEqualTo("user");
     }
 }

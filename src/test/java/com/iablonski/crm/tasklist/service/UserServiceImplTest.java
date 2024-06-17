@@ -92,7 +92,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void update_userUpdated(){
+    void update_userUpdated() {
         Mockito.when(passwordEncoder.encode(Mockito.anyString()))
                 .thenReturn("encodedPassword");
         Mockito.when(userRepository.save(Mockito.any(User.class)))
@@ -110,7 +110,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void create_userCreated(){
+    void create_userCreated() {
         Mockito.when(userRepository.findByUsername("john_doe"))
                 .thenReturn(Optional.empty());
         Mockito.when(passwordEncoder.encode(Mockito.anyString()))
@@ -134,7 +134,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void create_userAlreadyExists(){
+    void create_userAlreadyExists() {
         Mockito.when(userRepository.findByUsername("john_doe"))
                 .thenReturn(Optional.of(user));
 
@@ -150,7 +150,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void isTaskOwner_isTaskOwner(){
+    void isTaskOwner_isTaskOwner() {
         Mockito.when(userRepository.isTaskOwner(1L, 1L))
                 .thenReturn(true);
 
@@ -162,7 +162,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void isTaskOwner_isNotTaskOwner(){
+    void isTaskOwner_isNotTaskOwner() {
         Mockito.when(userRepository.isTaskOwner(1L, 1L))
                 .thenReturn(false);
 
@@ -174,7 +174,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void delete_userDeleted(){
+    void delete_userDeleted() {
         Mockito.doNothing().when(userRepository).deleteById(1L);
 
         userServiceImpl.delete(1L);
