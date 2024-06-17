@@ -38,7 +38,7 @@ public class UserServiceImplTest {
 
 
     @Test
-    void getById_UserExists() {
+    void getByIdUserExists() {
         Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
         User foundedUser = userServiceImpl.getById(1L);
@@ -51,7 +51,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void getById_UserNotFound() {
+    void getByIdUserNotFound() {
         Mockito.when(userRepository.findById(1L))
                 .thenReturn(Optional.empty());
 
@@ -64,7 +64,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void getByUsername_UserExists() {
+    void getByUsernameUserExists() {
         Mockito.when(userRepository.findByUsername("john_doe"))
                 .thenReturn(Optional.of(user));
 
@@ -78,7 +78,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void getByUsername_UserNotFound() {
+    void getByUsernameUserNotFound() {
         Mockito.when(userRepository.findByUsername("john_doe"))
                 .thenReturn(Optional.empty());
 
@@ -92,7 +92,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void update_userUpdated() {
+    void updateUserUpdated() {
         Mockito.when(passwordEncoder.encode(Mockito.anyString()))
                 .thenReturn("encodedPassword");
         Mockito.when(userRepository.save(Mockito.any(User.class)))
@@ -110,7 +110,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void create_userCreated() {
+    void createUserCreated() {
         Mockito.when(userRepository.findByUsername("john_doe"))
                 .thenReturn(Optional.empty());
         Mockito.when(passwordEncoder.encode(Mockito.anyString()))
@@ -134,7 +134,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void create_userAlreadyExists() {
+    void createUserAlreadyExists() {
         Mockito.when(userRepository.findByUsername("john_doe"))
                 .thenReturn(Optional.of(user));
 
@@ -150,7 +150,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void isTaskOwner_isTaskOwner() {
+    void isTaskOwnerIsTaskOwner() {
         Mockito.when(userRepository.isTaskOwner(1L, 1L))
                 .thenReturn(true);
 
@@ -162,7 +162,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void isTaskOwner_isNotTaskOwner() {
+    void isTaskOwnerIsNotTaskOwner() {
         Mockito.when(userRepository.isTaskOwner(1L, 1L))
                 .thenReturn(false);
 
@@ -174,7 +174,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void delete_userDeleted() {
+    void deleteUserDeleted() {
         Mockito.doNothing().when(userRepository).deleteById(1L);
 
         userServiceImpl.delete(1L);

@@ -32,7 +32,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    void findByUsername_userExists() {
+    void findByUsernameUserExists() {
         String username = "user";
 
         Optional<User> foundUser = userRepository.findByUsername(username);
