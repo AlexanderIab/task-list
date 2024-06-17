@@ -1,12 +1,15 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb
+    url: jdbc:h2:mem:test_db;DB_CLOSE_DELAY=-1;INIT=CREATE SCHEMA IF NOT EXISTS demo
     driver-class-name: org.h2.Driver
     username: login
     password: password
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        default_schema: demo
   liquibase:
-    enabled: true
-    change-log: classpath:liquibase/db.changelog.yaml
+    enabled: false
